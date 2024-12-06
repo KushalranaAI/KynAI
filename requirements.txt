@@ -1,0 +1,24 @@
+langchain==0.3.9  # LangChain for LLM orchestration
+langchain-experimental
+langchain-openai==0.2.10
+openai>=0.28.1  # OpenAI API client
+python-dotenv>=1.0.0  # Environment variable management
+gunicorn>=20.1.0  # Production WSGI server
+pinecone-client>=2.3.0  # Pinecone vector database client
+pandas>=2.2.3  # Data manipulation and analysis
+nltk>=3.9.0  # Natural Language Toolkit
+fastapi>=0.103.0  # FastAPI for building APIs
+uvicorn>=0.23.0  # ASGI server
+aiohttp>=3.9.0  # Asynchronous HTTP client
+slowapi>=0.1.0  # Rate-limiting library for FastAPI
+pydantic>=2.1.1  # Data validation and parsing
+jinja2>=3.1.2  # Template engine
+pydantic-settings>=2.0.0  # Configuration management with Pydantic
+watchgod>=0.8.2  # FastAPI reloading
+python-multipart>=0.0.6  # File upload support in FastAPI
+matplotlib>=3.7.2  # Data visualization
+plotly>=5.18.0  # Interactive plotting
+uvicorn[standard]
+websockets
+seaborn
+scikit-learn

@@ -1,0 +1,22 @@
+version: "3"
+services:
+  # FastAPI Service
+  web:
+    build: .  # Path to the directory containing your FastAPI application
+    ports:
+      - "${PORT}:${PORT}"  # Map the host port to the container port
+    env_file:
+      - .env  # Load environment variables from .env file
+    volumes:
+      - .:/app  # Mount the current directory to the /app directory inside the container
+    command: uvicorn main:app --host 0.0.0.0 --port ${PORT} --reload --log-level debug
+    restart: always
+    depends_on:
+      - redis  # Ensure Redis service starts before FastAPI
+
+  # Redis Service
+  redis:
+    image: redis:latest  # Use the latest official Redis image
+    restart: always
+    ports:
+      - "6379:6379"  # Redis port
