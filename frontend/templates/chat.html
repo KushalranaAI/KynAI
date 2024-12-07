@@ -78,6 +78,20 @@
             font-weight: bold;
             padding: 10px;
         }
+        .loader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
     </style>
 </head>
 <body>
@@ -92,6 +106,8 @@
         <input type="file" id="file-input" accept=".csv, .xls, .xlsx">
         <button id="upload-button">Upload</button>
     </div>
+    <div class="loader" style="display: none;">Uploading...</div>
+
 
     <div class="chat-container" style="display: none;">
         <h1>Chat with KynAI</h1>
@@ -118,13 +134,17 @@
         const chatInput = document.getElementById('chat-input');
         const sendButton = document.getElementById('send-button');
 
-       // Handle file upload
+        // Handle file upload
         uploadButton.addEventListener('click', () => {
             const file = fileInput.files[0];
             if (!file) {
                 alert('Please select a file to upload.');
                 return;
             }
+
+            // Show loader
+            const loader = document.querySelector('.loader');
+            loader.style.display = 'block';
 
             const formData = new FormData();
             formData.append('file', file);
@@ -133,24 +153,27 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                dataId = data.data_id;
-                if (dataId) {
-                    alert('File uploaded successfully. You can now start chatting.');
-                    document.querySelector('.upload-container').style.display = 'none';
-                    chatContainer.style.display = 'block';
-                    initializeWebSocket();  // Initialize WebSocket connection
-                } else {
-                    alert('File upload failed. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error uploading file:', error);
-                alert('An error occurred during file upload.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    loader.style.display = 'none'; // Hide loader after response
+                    console.log(data);
+                    dataId = data.data_id;
+                    if (dataId) {
+                        alert('File uploaded successfully. You can now start chatting.');
+                        document.querySelector('.upload-container').style.display = 'none';
+                        chatContainer.style.display = 'block';
+                        initializeWebSocket(); // Initialize WebSocket connection
+                    } else {
+                        alert('File upload failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    loader.style.display = 'none'; // Hide loader on error
+                    console.error('Error uploading file:', error);
+                    alert('An error occurred during file upload.');
+                });
         });
+
 
         function initializeWebSocket() {
             // ws = new WebSocket(`ws://localhost:8001/ws/chat?data_id=${dataId}`);
