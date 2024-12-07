@@ -22,3 +22,4 @@ uvicorn[standard]
 websockets
 seaborn
 scikit-learn
+openpyxl
