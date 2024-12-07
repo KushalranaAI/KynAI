@@ -153,8 +153,10 @@
         });
 
         function initializeWebSocket() {
-            ws = new WebSocket(`ws://localhost:8001/ws/chat?data_id=${dataId}`);
+            // ws = new WebSocket(`ws://localhost:8001/ws/chat?data_id=${dataId}`);
 
+            const wsUrl = `wss://kynai.onrender.com/ws/chat?data_id=${dataId}`;
+            const ws = new WebSocket(wsUrl);
             ws.onopen = () => {
                 console.log("WebSocket connection established.");
 
